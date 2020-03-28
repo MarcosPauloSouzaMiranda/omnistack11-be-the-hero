@@ -53,8 +53,11 @@ module.exports = {
       .select('ong_id')
       .first();
 
+    if (!incident)
+      return res.status(400).json({ error: 'O incidente que você está tentando apagar não existe!' });
+
     if (incident.ong_id !== ong_id)
-      return res.status(401).json({ error: 'Sem permissão para apagar este incidente!' })
+      return res.status(401).json({ error: 'Sem permissão para apagar este incidente!' });
 
     await connection('incidents').where('id', id).delete();
 
